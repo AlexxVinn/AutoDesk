@@ -9,7 +9,9 @@ from typing import Any
 from workspace_assistant.automation import AppLauncher, ChatGPTAutomation, Clipboard, KeyboardAutomation
 from workspace_assistant.automation.profiles import resolve_chrome_profile
 from workspace_assistant.config import get_config
+from workspace_assistant.audio import get_audio_manager
 from workspace_assistant.presets import PresetManager
+from workspace_assistant.windows.layouts import LayoutManager
 from workspace_assistant.windows import get_window_manager
 
 from .actions import ActionStep, CommandPlan
@@ -25,6 +27,8 @@ class ActionExecutor:
         self._clipboard = Clipboard()
         self._windows = get_window_manager()
         self._presets = PresetManager()
+        self._layouts = LayoutManager()
+        self._audio = get_audio_manager()
         self._config = get_config()
         self._running_preset: set[str] = set()
 
@@ -63,6 +67,13 @@ class ActionExecutor:
             "search_google": self._search_google,
             "focus_window": self._focus_window,
             "move_monitor": self._move_monitor,
+            "apply_layout": self._apply_layout,
+            "place_app": self._place_app,
+            "set_volume": self._set_volume,
+            "adjust_volume": self._adjust_volume,
+            "set_mute": self._set_mute,
+            "set_audio_device": self._set_audio_device,
+
             "wait": self._wait,
             "chatgpt_prompt": self._chatgpt_prompt,
             "copy_chatgpt": self._copy_chatgpt,
@@ -265,3 +276,49 @@ class ActionExecutor:
         if not win:
             return False, "not found"
         return self._windows.move_to_monitor(win.hwnd, int(params.get("monitor", 0))), "move"
+
+
+    def _apply_layout(self, params: dict) -> tuple[bool, str]:
+        slots = params.get("slots")
+        if params.get("layout_id"):
+            slots = self._layouts.slots_for(params["layout_id"])
+        if not slots:
+            return False, "no layout slots"
+        launch_missing = params.get("launch_missing", True)
+        ok = True
+        for slot in slots:
+            app_id = slot["app_id"]
+            zone = slot["zone"]
+            patterns = self._app_patterns(app_id)
+            win = self._windows.find_by_title_patterns(patterns)
+            if not win and launch_missing:
+                profile = slot.get("profile")
+                self._launcher.launch_app(app_id, profile=profile)
+                time.sleep(float(params.get("launch_wait", 1.0)))
+                win = self._windows.find_by_title_patterns(patterns)
+            if not win:
+                ok = False
+                continue
+            self._windows.focus(win.hwnd)
+            if not self._windows.place_in_zone(win.hwnd, zone):
+                ok = False
+        return ok, f"layout {len(slots)} slots"
+
+    def _place_app(self, params: dict) -> tuple[bool, str]:
+        return self._apply_layout({"slots": [params], "launch_missing": params.get("launch", True)})
+
+    def _set_volume(self, params: dict) -> tuple[bool, str]:
+        level = params.get("level", params.get("percent", 50))
+        return self._audio.set_volume_percent(int(level)), f"volume {level}"
+
+    def _adjust_volume(self, params: dict) -> tuple[bool, str]:
+        delta = int(params.get("delta", 10))
+        return self._audio.adjust_volume(delta), f"volume {'+' if delta > 0 else ''}{delta}"
+
+    def _set_mute(self, params: dict) -> tuple[bool, str]:
+        muted = params.get("muted", True)
+        return self._audio.set_mute(bool(muted)), "mute" if muted else "unmute"
+
+    def _set_audio_device(self, params: dict) -> tuple[bool, str]:
+        alias = params.get("device", params.get("alias", ""))
+        return self._audio.set_output_device(alias), f"audio {alias}"

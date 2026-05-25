@@ -1,0 +1,30 @@
+{
+  "devices": {
+    "headsets": {
+      "label": "Headsets",
+      "match": ["Headset", "Headphone", "WH-", "Sony WH", "Bluetooth Headset"]
+    },
+    "earbuds": {
+      "label": "Earbuds",
+      "match": ["Earbud", "Galaxy Buds", "AirPods", "Buds", "TWS"]
+    },
+    "speakers": {
+      "label": "Speakers",
+      "match": ["Speaker", "Realtek", "Display Audio"]
+    },
+    "monitor": {
+      "label": "Monitor audio",
+      "match": ["HDMI", "Display", "Monitor"]
+    }
+  },
+  "aliases": {
+    "headset": "headsets",
+    "headphones": "headsets",
+    "my headsets": "headsets",
+    "my earbuds": "earbuds",
+    "earbud": "earbuds",
+    "buds": "earbuds",
+    "speakers": "speakers",
+    "speaker": "speakers"
+  }
+}

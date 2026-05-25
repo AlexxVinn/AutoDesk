@@ -6,17 +6,19 @@ import logging
 import re
 
 from .base import SnapLayout, WindowInfo, WindowManager
+from .zones import PixelRect
 
 logger = logging.getLogger(__name__)
 
 
 class StubWindowManager(WindowManager):
-    """Logs actions instead of controlling windows (Linux/macOS dev)."""
-
     def __init__(self) -> None:
         self._windows: list[WindowInfo] = [
             WindowInfo(hwnd=1, title="Cursor - workspace-assistant"),
             WindowInfo(hwnd=2, title="Google Chrome"),
+            WindowInfo(hwnd=3, title="Telegram"),
+            WindowInfo(hwnd=4, title="Viber"),
+            WindowInfo(hwnd=5, title="Windows Terminal"),
         ]
 
     def list_windows(self) -> list[WindowInfo]:
@@ -33,6 +35,13 @@ class StubWindowManager(WindowManager):
                 return win
         return None
 
+    def get_primary_work_area(self) -> tuple[int, int, int, int]:
+        return 0, 0, 1920, 1040
+
+    def place_rect(self, hwnd: int, rect: PixelRect) -> bool:
+        logger.info("stub place hwnd=%s rect=%s", hwnd, rect)
+        return True
+
     def snap(self, hwnd: int, layout: SnapLayout) -> bool:
         logger.info("stub snap hwnd=%s layout=%s", hwnd, layout)
         return True
@@ -42,6 +51,5 @@ class StubWindowManager(WindowManager):
         return True
 
     def close(self, hwnd: int) -> bool:
-        logger.info("stub close hwnd=%s", hwnd)
         self._windows = [w for w in self._windows if w.hwnd != hwnd]
         return True

@@ -108,3 +108,23 @@ cd backend && pip install -e . && PYTHONPATH=src pytest
 ## License
 
 MIT (add your license as needed)
+
+## Audio control (Windows)
+
+- `set volume to 50`, `volume up`, `volume down`, `mute`, `unmute`
+- `switch audio to earbuds` / `use headsets`
+
+Configure device name matching in `config/audio.json`. See `docs/AUDIO_SETUP.md`.
+
+## Custom window layouts
+
+Predefined layouts in `config/layouts.json`. Examples:
+
+- `layout cursor_right_chrome_tl_telegram_bl`
+- Say the alias: *cursor right chrome top left telegram bottom left*
+- Freeform: *put cursor on the right and chrome top left and terminal bottom left*
+
+Zones: `top_left`, `top_right`, `bottom_left`, `bottom_right`, `left`, `right`, `top`, `bottom`, and more (`GET /layouts/zones`).
+
+Apps **Telegram** and **Viber** are in `config/apps.json` — adjust exe paths if needed.
+

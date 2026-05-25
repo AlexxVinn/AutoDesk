@@ -17,9 +17,7 @@
     "profiles": {
       "default": [],
       "work": ["--profile-directory=Profile 1"],
-      "alexandr_vinnitchii": [
-        "--profile-directory=Profile 2"
-      ]
+      "alexandr_vinnitchii": ["--profile-directory=Profile 2"]
     },
     "profile_aliases": {
       "alexandr vinnitchii": "alexandr_vinnitchii",
@@ -37,8 +35,24 @@
   "terminal": {
     "name": "Windows Terminal",
     "windows": {
-      "title_patterns": ["Windows Terminal", "Command Prompt", "PowerShell"],
+      "title_patterns": ["Windows Terminal", "Command Prompt", "PowerShell", "pwsh"],
       "launch": ["wt"]
+    }
+  },
+  "telegram": {
+    "name": "Telegram",
+    "windows": {
+      "exe": "%APPDATA%\\Telegram Desktop\\Telegram.exe",
+      "title_patterns": ["Telegram"],
+      "launch": ["cmd", "/c", "start", "", "%APPDATA%\\Telegram Desktop\\Telegram.exe"]
+    }
+  },
+  "viber": {
+    "name": "Viber",
+    "windows": {
+      "exe": "%LOCALAPPDATA%\\Viber\\Viber.exe",
+      "title_patterns": ["Viber", "Rakuten Viber"],
+      "launch": ["cmd", "/c", "start", "", "%LOCALAPPDATA%\\Viber\\Viber.exe"]
     }
   },
   "spotify": {

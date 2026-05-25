@@ -76,6 +76,8 @@ class ConfigStore:
         self.apps = self._load_json("apps.json", fallback={})
         self.presets = self._load_json("presets.json", fallback={})
         self.projects = self._load_json("projects.json", fallback={})
+        self.layouts = self._load_json("layouts.json", fallback={})
+        self.audio = self._load_json("audio.json", fallback={})
 
     def _load_settings(self) -> AppSettings:
         path = self.root / "settings.json"

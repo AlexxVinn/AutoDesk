@@ -8,18 +8,19 @@ import sys
 from ctypes import wintypes
 
 from .base import SnapLayout, WindowInfo, WindowManager
+from .zones import PixelRect
 
 if sys.platform != "win32":
     raise RuntimeError("win32_manager is Windows-only")
 
 user32 = ctypes.windll.user32
-kernel32 = ctypes.windll.kernel32
 
 SW_RESTORE = 9
 SW_MAXIMIZE = 3
 SW_MINIMIZE = 6
 HWND_TOP = 0
 SWP_SHOWWINDOW = 0x0040
+MONITOR_DEFAULTTOPRIMARY = 1
 MONITOR_DEFAULTTONEAREST = 2
 
 
@@ -65,11 +66,10 @@ def _enum_windows() -> list[int]:
     return handles
 
 
-def _work_area_for_window(hwnd: int) -> RECT:
-    monitor = user32.MonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST)
+def _work_area_for_monitor(monitor_handle: int) -> RECT:
     info = MONITORINFO()
     info.cbSize = ctypes.sizeof(MONITORINFO)
-    user32.GetMonitorInfoW(monitor, ctypes.byref(info))
+    user32.GetMonitorInfoW(monitor_handle, ctypes.byref(info))
     return info.rcWork
 
 
@@ -103,6 +103,25 @@ class Win32WindowManager(WindowManager):
                 return win
         return None
 
+    def get_primary_work_area(self) -> tuple[int, int, int, int]:
+        monitor = user32.MonitorFromWindow(0, MONITOR_DEFAULTTOPRIMARY)
+        work = _work_area_for_monitor(monitor)
+        return work.left, work.top, work.right - work.left, work.bottom - work.top
+
+    def place_rect(self, hwnd: int, rect: PixelRect) -> bool:
+        if user32.IsIconic(hwnd):
+            user32.ShowWindow(hwnd, SW_RESTORE)
+        user32.SetWindowPos(
+            hwnd,
+            HWND_TOP,
+            rect.left,
+            rect.top,
+            rect.width,
+            rect.height,
+            SWP_SHOWWINDOW,
+        )
+        return True
+
     def snap(self, hwnd: int, layout: SnapLayout) -> bool:
         if layout == "maximize":
             user32.ShowWindow(hwnd, SW_MAXIMIZE)
@@ -114,7 +133,8 @@ class Win32WindowManager(WindowManager):
             user32.ShowWindow(hwnd, SW_RESTORE)
             return True
 
-        work = _work_area_for_window(hwnd)
+        monitor = user32.MonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST)
+        work = _work_area_for_monitor(monitor)
         width = work.right - work.left
         height = work.bottom - work.top
         half = width // 2
@@ -155,4 +175,4 @@ class Win32WindowManager(WindowManager):
         return True
 
     def close(self, hwnd: int) -> bool:
-        return bool(user32.PostMessageW(hwnd, 0x0010, 0, 0))  # WM_CLOSE
+        return bool(user32.PostMessageW(hwnd, 0x0010, 0, 0))

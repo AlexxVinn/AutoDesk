@@ -4,7 +4,9 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import Literal
+from typing import Any, Literal
+
+from .zones import PixelRect, zone_to_rect
 
 SnapLayout = Literal["left", "right", "maximize", "minimize", "restore", "split_lr"]
 
@@ -35,6 +37,15 @@ class WindowManager(ABC):
         ...
 
     @abstractmethod
+    def place_rect(self, hwnd: int, rect: PixelRect) -> bool:
+        ...
+
+    @abstractmethod
+    def get_primary_work_area(self) -> tuple[int, int, int, int]:
+        """Return (left, top, width, height) of primary monitor work area."""
+        ...
+
+    @abstractmethod
     def move_to_monitor(self, hwnd: int, monitor_index: int) -> bool:
         ...
 
@@ -56,4 +67,27 @@ class WindowManager(ABC):
             ok = self.snap(left.hwnd, "left") and ok
         if right:
             ok = self.snap(right.hwnd, "right") and ok
+        return ok
+
+    def place_in_zone(self, hwnd: int, zone: str) -> bool:
+        left, top, width, height = self.get_primary_work_area()
+        rect = zone_to_rect(zone, left, top, width, height)
+        if not rect:
+            return False
+        return self.place_rect(hwnd, rect)
+
+    def apply_slots(self, slots: list[dict[str, Any]], pattern_resolver) -> bool:
+        ok = True
+        for slot in slots:
+            app_id = slot.get("app_id", "")
+            zone = slot.get("zone", "left")
+            patterns = pattern_resolver(app_id)
+            win = self.find_by_title_patterns(patterns)
+            if not win:
+                ok = False
+                continue
+            if self.place_in_zone(win.hwnd, zone):
+                self.focus(win.hwnd)
+            else:
+                ok = False
         return ok

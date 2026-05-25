@@ -13,7 +13,9 @@ from pydantic import BaseModel
 from workspace_assistant.config import get_config
 from workspace_assistant.executor import ActionExecutor, CommandPlan
 from workspace_assistant.parser import CommandParser
+from workspace_assistant.audio import get_audio_manager
 from workspace_assistant.presets import PresetManager
+from workspace_assistant.windows.layouts import LayoutManager
 from workspace_assistant.voice import VoiceEvent, VoiceListener
 from workspace_assistant.windows import get_window_manager
 
@@ -23,6 +25,8 @@ router = APIRouter()
 _executor = ActionExecutor()
 _parser = CommandParser()
 _presets = PresetManager()
+_layouts = LayoutManager()
+_audio = get_audio_manager()
 
 _voice_listener: VoiceListener | None = None
 _ws_clients: list[WebSocket] = []
@@ -65,6 +69,29 @@ def _schedule_broadcast_command(text: str) -> None:
 @router.get("/health")
 def health() -> dict[str, str]:
     return {"status": "ok", "version": "0.1.0"}
+
+
+
+@router.get("/layouts")
+def list_layouts() -> list[dict]:
+    return _layouts.list_layouts()
+
+
+@router.get("/layouts/zones")
+def list_zones() -> list[str]:
+    from workspace_assistant.windows.zones import list_zones as zones
+    return zones()
+
+
+@router.get("/audio/devices")
+def list_audio_devices() -> list[dict[str, str]]:
+    return _audio.list_output_devices()
+
+
+@router.get("/audio/volume")
+def get_volume() -> dict:
+    level = _audio.get_volume_percent()
+    return {"percent": level}
 
 
 @router.get("/presets")

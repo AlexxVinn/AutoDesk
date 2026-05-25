@@ -16,6 +16,17 @@ class RuleParser:
         self._presets = PresetManager()
         self._config = get_config()
         self._rules: list[tuple[re.Pattern[str], Callable[[re.Match[str], str], CommandPlan | None]]] = [
+            (re.compile(r"^volume up(?: by (?P<delta>\d+))?$", re.I), self._volume_up),
+            (re.compile(r"^volume down(?: by (?P<delta>\d+))?$", re.I), self._volume_down),
+            (re.compile(r"^(?:set )?volume to (?P<level>\d+)(?: percent)?$", re.I), self._volume_set),
+            (re.compile(r"^mute$", re.I), self._mute),
+            (re.compile(r"^unmute$", re.I), self._unmute),
+            (re.compile(r"^(?:switch|change) (?:audio |sound )?(?:to|output to) (?P<device>.+)$", re.I), self._audio_device),
+            (re.compile(r"^use (?P<device>headsets?|earbuds?|speakers?)$", re.I), self._audio_device),
+            (re.compile(r"^layout (?P<layout_id>[\w_]+)$", re.I), self._layout_id),
+            (re.compile(r"^open telegram$", re.I), self._open_app_simple("telegram")),
+            (re.compile(r"^open viber$", re.I), self._open_app_simple("viber")),
+            (re.compile(r"^open terminal$", re.I), self._open_app_simple("terminal")),
             (re.compile(r"^open coding workspace$", re.I), self._preset("open_coding_workspace")),
             (re.compile(r"^coding mode$", re.I), self._preset("coding_mode")),
             (re.compile(r"^focus mode$", re.I), self._preset("focus_mode")),
@@ -218,6 +229,63 @@ class RuleParser:
                 steps.insert(2, ActionStep(action="open_project", params={"project_id": pid}))
         return CommandPlan(source_text=text, steps=steps, parser="rules")
 
+    def _volume_up(self, m: re.Match[str], text: str) -> CommandPlan:
+        delta = int(m.groupdict().get("delta") or 10)
+        return CommandPlan(
+            source_text=text,
+            steps=[ActionStep(action="adjust_volume", params={"delta": delta})],
+            parser="rules",
+        )
+
+    def _volume_down(self, m: re.Match[str], text: str) -> CommandPlan:
+        delta = int(m.groupdict().get("delta") or 10)
+        return CommandPlan(
+            source_text=text,
+            steps=[ActionStep(action="adjust_volume", params={"delta": -delta})],
+            parser="rules",
+        )
+
+    def _volume_set(self, m: re.Match[str], text: str) -> CommandPlan:
+        return CommandPlan(
+            source_text=text,
+            steps=[ActionStep(action="set_volume", params={"level": int(m.group("level"))})],
+            parser="rules",
+        )
+
+    def _mute(self, _m: re.Match[str], text: str) -> CommandPlan:
+        return CommandPlan(source_text=text, steps=[ActionStep(action="set_mute", params={"muted": True})], parser="rules")
+
+    def _unmute(self, _m: re.Match[str], text: str) -> CommandPlan:
+        return CommandPlan(source_text=text, steps=[ActionStep(action="set_mute", params={"muted": False})], parser="rules")
+
+    def _audio_device(self, m: re.Match[str], text: str) -> CommandPlan:
+        return CommandPlan(
+            source_text=text,
+            steps=[ActionStep(action="set_audio_device", params={"device": m.group("device").strip()})],
+            parser="rules",
+        )
+
+    def _layout_id(self, m: re.Match[str], text: str) -> CommandPlan:
+        from workspace_assistant.windows.layouts import LayoutManager
+        lid = m.group("layout_id")
+        lm = LayoutManager()
+        found = lm.find_by_alias(lid.replace("_", " ")) or lid
+        return CommandPlan(
+            source_text=text,
+            steps=[ActionStep(action="apply_layout", params={"layout_id": found})],
+            parser="rules",
+        )
+
+    def _open_app_simple(self, app_id: str):
+        def handler(_m: re.Match[str], text: str) -> CommandPlan:
+            return CommandPlan(
+                source_text=text,
+                steps=[ActionStep(action="open_app", params={"app_id": app_id})],
+                parser="rules",
+            )
+        return handler
+
+
     def parse(self, text: str) -> CommandPlan | None:
         cleaned = text.strip().rstrip(".")
         if not cleaned:
@@ -228,6 +296,15 @@ class RuleParser:
             return CommandPlan(
                 source_text=text,
                 steps=[ActionStep(action="run_preset", params={"preset_id": preset_id})],
+                parser="rules",
+            )
+
+        from workspace_assistant.windows.layouts import LayoutManager
+        layout_id = LayoutManager().find_by_alias(cleaned)
+        if layout_id:
+            return CommandPlan(
+                source_text=text,
+                steps=[ActionStep(action="apply_layout", params={"layout_id": layout_id})],
                 parser="rules",
             )
 
