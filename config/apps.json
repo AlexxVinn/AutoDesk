@@ -11,13 +11,28 @@
     "name": "Google Chrome",
     "windows": {
       "exe": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-      "title_patterns": ["Google Chrome", "Chrome"],
+      "title_patterns": ["Google Chrome", "Chrome", "ChatGPT", "YouTube"],
       "launch": ["cmd", "/c", "start", "", "chrome"]
     },
     "profiles": {
       "default": [],
-      "work": ["--profile-directory=Profile 1"]
+      "work": ["--profile-directory=Profile 1"],
+      "alexandr_vinnitchii": [
+        "--profile-directory=Profile 2"
+      ]
+    },
+    "profile_aliases": {
+      "alexandr vinnitchii": "alexandr_vinnitchii",
+      "my alexandr vinnitchii": "alexandr_vinnitchii",
+      "my alexandr vinnitchii account": "alexandr_vinnitchii",
+      "alexandr": "alexandr_vinnitchii"
     }
+  },
+  "youtube": {
+    "name": "YouTube",
+    "url": "https://www.youtube.com",
+    "open_in_chrome": true,
+    "chrome_profile": "alexandr_vinnitchii"
   },
   "terminal": {
     "name": "Windows Terminal",
@@ -35,10 +50,14 @@
   },
   "chatgpt": {
     "name": "ChatGPT",
-    "url": "https://chatgpt.com"
+    "url": "https://chatgpt.com",
+    "open_in_chrome": true,
+    "chrome_profile": "alexandr_vinnitchii",
+    "title_patterns": ["ChatGPT", "chatgpt.com"]
   },
   "google": {
     "name": "Google Search",
-    "url_template": "https://www.google.com/search?q={query}"
+    "url_template": "https://www.google.com/search?q={query}",
+    "open_in_chrome": true
   }
 }

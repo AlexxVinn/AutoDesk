@@ -13,11 +13,13 @@ dependencies = [
     "sounddevice>=0.5.0",
     "faster-whisper>=1.0.3",
     "openai>=1.54.0",
+    "pyperclip>=1.9.0",
 ]
 
 [project.optional-dependencies]
 windows = [
     "pywin32>=308; sys_platform == 'win32'",
+    "pywinauto>=0.6.8; sys_platform == 'win32'",
 ]
 dev = [
     "pytest>=8.3.0",

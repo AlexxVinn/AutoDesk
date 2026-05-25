@@ -16,18 +16,18 @@ Return ONLY valid JSON with this shape:
 {"steps":[{"action":"<name>","params":{}}]}
 
 Allowed actions:
-launch_app (app_id, profile?, args?)
+launch_app, open_app (app_id, profile?, fullscreen?, maximize?)
 focus_app (app_id)
-open_url (app_id or url)
+open_url, open_url_in_chrome (url, app_id, profile)
 open_project (project_id)
-open_folder (path or project_id)
+chatgpt_prompt (text)
+copy_chatgpt, copy_chatgpt_to_cursor, paste_to_app (app_id)
 snap_layout (layout: split_lr, left?, right?)
-snap_window (app_id, side: left|right)
 maximize, minimize (app_id)
 close_apps (app_ids[])
 run_preset (preset_id)
 search_google (query)
-hotkey (keys[])
+hotkey (keys[]), wait (seconds)
 
 Known app_ids: cursor, chrome, terminal, spotify, chatgpt
 Known presets: coding_mode, focus_mode, split_screen, open_coding_workspace

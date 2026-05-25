@@ -37,5 +37,27 @@
     "steps": [
       { "action": "snap_layout", "params": { "layout": "split_lr", "left": "cursor", "right": "chrome" } }
     ]
+  },
+  "alexandr_browser_stack": {
+    "id": "alexandr_browser_stack",
+    "label": "Alexandr Chrome Stack",
+    "description": "Chrome profile + YouTube + ChatGPT, then Cursor fullscreen",
+    "alias": [
+      "open alexandr stack",
+      "open my alexandr setup"
+    ],
+    "steps": [
+      {
+        "action": "open_url_in_chrome",
+        "params": { "profile": "alexandr_vinnitchii", "url": "https://www.youtube.com" }
+      },
+      { "action": "wait", "params": { "seconds": 1.0 } },
+      {
+        "action": "open_url_in_chrome",
+        "params": { "profile": "alexandr_vinnitchii", "app_id": "chatgpt" }
+      },
+      { "action": "wait", "params": { "seconds": 0.8 } },
+      { "action": "open_app", "params": { "app_id": "cursor", "fullscreen": true } }
+    ]
   }
 }
