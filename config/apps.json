@@ -1,0 +1,44 @@
+{
+  "cursor": {
+    "name": "Cursor",
+    "windows": {
+      "exe": "%LOCALAPPDATA%\\Programs\\cursor\\Cursor.exe",
+      "title_patterns": ["Cursor", "- Cursor"],
+      "launch": ["cmd", "/c", "start", "", "%LOCALAPPDATA%\\Programs\\cursor\\Cursor.exe"]
+    }
+  },
+  "chrome": {
+    "name": "Google Chrome",
+    "windows": {
+      "exe": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+      "title_patterns": ["Google Chrome", "Chrome"],
+      "launch": ["cmd", "/c", "start", "", "chrome"]
+    },
+    "profiles": {
+      "default": [],
+      "work": ["--profile-directory=Profile 1"]
+    }
+  },
+  "terminal": {
+    "name": "Windows Terminal",
+    "windows": {
+      "title_patterns": ["Windows Terminal", "Command Prompt", "PowerShell"],
+      "launch": ["wt"]
+    }
+  },
+  "spotify": {
+    "name": "Spotify",
+    "windows": {
+      "title_patterns": ["Spotify"],
+      "launch": ["cmd", "/c", "start", "", "spotify:"]
+    }
+  },
+  "chatgpt": {
+    "name": "ChatGPT",
+    "url": "https://chatgpt.com"
+  },
+  "google": {
+    "name": "Google Search",
+    "url_template": "https://www.google.com/search?q={query}"
+  }
+}

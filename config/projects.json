@@ -1,0 +1,16 @@
+{
+  "default_project": {
+    "label": "Default Project",
+    "path": "%USERPROFILE%\\Projects\\my-app"
+  },
+  "phyzic": {
+    "label": "Phyzic",
+    "path": "%USERPROFILE%\\Projects\\phyzic",
+    "cursor_args": ["%USERPROFILE%\\Projects\\phyzic"]
+  },
+  "physics": {
+    "label": "Physics Project",
+    "path": "%USERPROFILE%\\Projects\\physics",
+    "alias": ["physics project", "my physics project"]
+  }
+}

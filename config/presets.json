@@ -1,0 +1,41 @@
+{
+  "coding_mode": {
+    "id": "coding_mode",
+    "label": "Coding Mode",
+    "description": "Cursor + Chrome split, project folder, ChatGPT tab",
+    "steps": [
+      { "action": "launch_app", "params": { "app_id": "cursor" } },
+      { "action": "launch_app", "params": { "app_id": "chrome", "profile": "default" } },
+      { "action": "open_url", "params": { "app_id": "chatgpt" } },
+      { "action": "open_folder", "params": { "project_id": "default_project" } },
+      { "action": "snap_layout", "params": { "layout": "split_lr", "left": "cursor", "right": "chrome" } },
+      { "action": "focus_app", "params": { "app_id": "cursor" } }
+    ]
+  },
+  "focus_mode": {
+    "id": "focus_mode",
+    "label": "Focus Mode",
+    "description": "Close distractions, music, clean coding layout",
+    "steps": [
+      { "action": "close_apps", "params": { "app_ids": ["chrome"] } },
+      { "action": "launch_app", "params": { "app_id": "spotify" } },
+      { "action": "run_preset", "params": { "preset_id": "coding_mode" } }
+    ]
+  },
+  "open_coding_workspace": {
+    "id": "open_coding_workspace",
+    "label": "Open Coding Workspace",
+    "alias": ["open coding workspace", "coding workspace"],
+    "steps": [
+      { "action": "run_preset", "params": { "preset_id": "coding_mode" } }
+    ]
+  },
+  "split_screen": {
+    "id": "split_screen",
+    "label": "Split Screen",
+    "alias": ["split screen", "side by side"],
+    "steps": [
+      { "action": "snap_layout", "params": { "layout": "split_lr", "left": "cursor", "right": "chrome" } }
+    ]
+  }
+}
