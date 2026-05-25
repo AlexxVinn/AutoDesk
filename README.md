@@ -128,3 +128,7 @@ Zones: `top_left`, `top_right`, `bottom_left`, `bottom_right`, `left`, `right`, 
 
 Apps **Telegram** and **Viber** are in `config/apps.json` — adjust exe paths if needed.
 
+
+## Natural language (local LLM)
+
+See [docs/LOCAL_LLM.md](docs/LOCAL_LLM.md) for Ollama setup. Use `mode: natural` + `llm_enabled: true` so casual speech maps to action JSON without memorizing exact commands.

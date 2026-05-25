@@ -17,8 +17,12 @@
   "parser": {
     "mode": "hybrid",
     "llm_enabled": false,
-    "llm_model": "gpt-4o-mini",
-    "openai_api_key_env": "OPENAI_API_KEY"
+    "provider": "ollama",
+    "base_url": "http://127.0.0.1:11434/v1",
+    "llm_model": "qwen2.5:3b",
+    "use_openai_sdk": true,
+    "openai_api_key_env": "OPENAI_API_KEY",
+    "api_key_env": "OLLAMA_API_KEY"
   },
   "feedback": {
     "sound_on_success": false,

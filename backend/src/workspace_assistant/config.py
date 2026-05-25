@@ -45,8 +45,12 @@ class VoiceSettings(BaseModel):
 class ParserSettings(BaseModel):
     mode: str = "hybrid"
     llm_enabled: bool = False
+    provider: str = "openai"
+    base_url: str | None = None
     llm_model: str = "gpt-4o-mini"
     openai_api_key_env: str = "OPENAI_API_KEY"
+    api_key_env: str | None = None
+    use_openai_sdk: bool = True
 
 
 class PathsSettings(BaseModel):
