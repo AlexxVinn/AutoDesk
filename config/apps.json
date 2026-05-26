@@ -1,0 +1,77 @@
+{
+  "cursor": {
+    "name": "Cursor",
+    "windows": {
+      "exe": "%LOCALAPPDATA%\\Programs\\cursor\\Cursor.exe",
+      "title_patterns": ["Cursor", "- Cursor"],
+      "launch": ["cmd", "/c", "start", "", "%LOCALAPPDATA%\\Programs\\cursor\\Cursor.exe"]
+    }
+  },
+  "chrome": {
+    "name": "Google Chrome",
+    "windows": {
+      "exe": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+      "title_patterns": ["Google Chrome", "Chrome", "ChatGPT", "YouTube"],
+      "launch": ["cmd", "/c", "start", "", "chrome"]
+    },
+    "profiles": {
+      "default": [],
+      "work": ["--profile-directory=Profile 1"],
+      "alexandr_vinnitchii": ["--profile-directory=Profile 2"]
+    },
+    "profile_aliases": {
+      "alexandr vinnitchii": "alexandr_vinnitchii",
+      "my alexandr vinnitchii": "alexandr_vinnitchii",
+      "my alexandr vinnitchii account": "alexandr_vinnitchii",
+      "alexandr": "alexandr_vinnitchii"
+    }
+  },
+  "youtube": {
+    "name": "YouTube",
+    "url": "https://www.youtube.com",
+    "open_in_chrome": true,
+    "chrome_profile": "alexandr_vinnitchii"
+  },
+  "terminal": {
+    "name": "Windows Terminal",
+    "windows": {
+      "title_patterns": ["Windows Terminal", "Command Prompt", "PowerShell", "pwsh"],
+      "launch": ["wt"]
+    }
+  },
+  "telegram": {
+    "name": "Telegram",
+    "windows": {
+      "exe": "%APPDATA%\\Telegram Desktop\\Telegram.exe",
+      "title_patterns": ["Telegram"],
+      "launch": ["cmd", "/c", "start", "", "%APPDATA%\\Telegram Desktop\\Telegram.exe"]
+    }
+  },
+  "viber": {
+    "name": "Viber",
+    "windows": {
+      "exe": "%LOCALAPPDATA%\\Viber\\Viber.exe",
+      "title_patterns": ["Viber", "Rakuten Viber"],
+      "launch": ["cmd", "/c", "start", "", "%LOCALAPPDATA%\\Viber\\Viber.exe"]
+    }
+  },
+  "spotify": {
+    "name": "Spotify",
+    "windows": {
+      "title_patterns": ["Spotify"],
+      "launch": ["cmd", "/c", "start", "", "spotify:"]
+    }
+  },
+  "chatgpt": {
+    "name": "ChatGPT",
+    "url": "https://chatgpt.com",
+    "open_in_chrome": true,
+    "chrome_profile": "alexandr_vinnitchii",
+    "title_patterns": ["ChatGPT", "chatgpt.com"]
+  },
+  "google": {
+    "name": "Google Search",
+    "url_template": "https://www.google.com/search?q={query}",
+    "open_in_chrome": true
+  }
+}

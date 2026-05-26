@@ -1,0 +1,60 @@
+{
+  "cursor_right_chrome_tl_telegram_bl": {
+    "label": "Cursor right | Chrome top-left | Telegram bottom-left",
+    "alias": [
+      "cursor right chrome top left telegram bottom left",
+      "chrome top left telegram bottom left cursor right"
+    ],
+    "slots": [
+      { "app_id": "chrome", "zone": "top_left" },
+      { "app_id": "telegram", "zone": "bottom_left" },
+      { "app_id": "cursor", "zone": "right" }
+    ]
+  },
+  "cursor_right_chrome_tl_terminal_bl": {
+    "label": "Cursor right | Chrome top-left | Terminal bottom-left",
+    "alias": [
+      "cursor right chrome top left terminal bottom left",
+      "chrome top left terminal bottom left cursor right"
+    ],
+    "slots": [
+      { "app_id": "chrome", "zone": "top_left" },
+      { "app_id": "terminal", "zone": "bottom_left" },
+      { "app_id": "cursor", "zone": "right" }
+    ]
+  },
+  "cursor_right_chrome_tl_viber_bl": {
+    "label": "Cursor right | Chrome top-left | Viber bottom-left",
+    "alias": ["cursor right chrome top left viber bottom left"],
+    "slots": [
+      { "app_id": "chrome", "zone": "top_left" },
+      { "app_id": "viber", "zone": "bottom_left" },
+      { "app_id": "cursor", "zone": "right" }
+    ]
+  },
+  "quad_work": {
+    "label": "4-way: Chrome | Telegram | Terminal | Cursor",
+    "alias": ["quad layout", "four way split"],
+    "slots": [
+      { "app_id": "chrome", "zone": "top_left" },
+      { "app_id": "telegram", "zone": "top_right" },
+      { "app_id": "terminal", "zone": "bottom_left" },
+      { "app_id": "cursor", "zone": "bottom_right" }
+    ]
+  },
+  "split_lr_cursor_chrome": {
+    "label": "Cursor left | Chrome right",
+    "slots": [
+      { "app_id": "cursor", "zone": "left" },
+      { "app_id": "chrome", "zone": "right" }
+    ]
+  },
+  "chrome_left_stack_right_cursor": {
+    "label": "Chrome+Telegram left column | Cursor right",
+    "slots": [
+      { "app_id": "chrome", "zone": "top_left" },
+      { "app_id": "telegram", "zone": "bottom_left" },
+      { "app_id": "cursor", "zone": "right" }
+    ]
+  }
+}

@@ -1,0 +1,174 @@
+:root {
+  color-scheme: dark;
+  --bg: #0d0f12;
+  --panel: #151920;
+  --border: #252b36;
+  --text: #e8ecf4;
+  --muted: #8b95a8;
+  --accent: #5b8def;
+  --ok: #3ecf8e;
+  --err: #f07178;
+  font-family: "Segoe UI", system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: radial-gradient(1200px 600px at 10% -10%, #1a2230 0%, var(--bg) 55%);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+#app {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 1rem 1.25rem 1.5rem;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.brand h1 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--muted);
+}
+
+.dot.ok {
+  background: var(--ok);
+  box-shadow: 0 0 10px var(--ok);
+}
+
+.dot.err {
+  background: var(--err);
+}
+
+.status {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.layout {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.9rem 1rem;
+}
+
+.command-panel label {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-bottom: 0.35rem;
+}
+
+.command-row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+input {
+  flex: 1;
+  background: #0b0e13;
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 8px;
+  padding: 0.55rem 0.7rem;
+  font-size: 0.95rem;
+}
+
+input:focus {
+  outline: 1px solid var(--accent);
+  border-color: var(--accent);
+}
+
+button {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.55rem 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button.ghost {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+.preset-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 0.5rem;
+}
+
+.preset-btn {
+  background: #0b0e13;
+  border: 1px solid var(--border);
+  color: var(--text);
+  text-align: left;
+  padding: 0.6rem 0.7rem;
+}
+
+.preset-btn span {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--muted);
+  margin-top: 0.2rem;
+}
+
+h2 {
+  font-size: 0.85rem;
+  margin: 0 0 0.6rem;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.hint {
+  margin: 0.45rem 0 0;
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+.feedback {
+  margin: 0;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  white-space: pre-wrap;
+  color: #c5d0e0;
+  max-height: 200px;
+  overflow: auto;
+}
+
+.footer {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.85rem;
+}

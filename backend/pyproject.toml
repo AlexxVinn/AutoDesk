@@ -1,0 +1,43 @@
+[project]
+name = "workspace-assistant"
+version = "0.1.0"
+description = "Phase 1 desktop workspace assistant — voice, presets, deterministic automation"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.115.0",
+    "uvicorn[standard]>=0.32.0",
+    "pydantic>=2.9.0",
+    "pydantic-settings>=2.6.0",
+    "httpx>=0.27.0",
+    "numpy>=1.26.0",
+    "sounddevice>=0.5.0",
+    "faster-whisper>=1.0.3",
+    "openai>=1.54.0",
+    "pyperclip>=1.9.0",
+    "comtypes>=1.4.0",
+]
+
+[project.optional-dependencies]
+windows = [
+    "pywin32>=308; sys_platform == 'win32'",
+    "pywinauto>=0.6.8; sys_platform == 'win32'",
+    "pycaw>=20240210; sys_platform == 'win32'",
+]
+dev = [
+    "pytest>=8.3.0",
+    "ruff>=0.7.0",
+]
+
+[project.scripts]
+workspace-assistant = "workspace_assistant.main:run"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/workspace_assistant"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"

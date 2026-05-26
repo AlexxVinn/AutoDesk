@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Workspace Assistant</title>
+    <link rel="stylesheet" href="/src/styles.css" />
+  </head>
+  <body>
+    <div id="app">
+      <header class="topbar">
+        <div class="brand">
+          <span class="dot" id="status-dot"></span>
+          <h1>Workspace Assistant</h1>
+        </div>
+        <div class="status" id="connection-status">Connecting…</div>
+      </header>
+
+      <main class="layout">
+        <section class="panel command-panel">
+          <label for="command-input">Command</label>
+          <div class="command-row">
+            <input
+              id="command-input"
+              type="text"
+              placeholder='e.g. "open coding workspace" or "focus cursor"'
+              autocomplete="off"
+            />
+            <button id="run-btn" type="button">Run</button>
+          </div>
+          <p class="hint">Enter to run · Voice toggles in tray · Deterministic execution</p>
+        </section>
+
+        <section class="panel presets-panel">
+          <h2>Presets</h2>
+          <div id="presets" class="preset-grid"></div>
+        </section>
+
+        <section class="panel feedback-panel">
+          <h2>Last action</h2>
+          <pre id="feedback" class="feedback">Ready.</pre>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <button id="voice-btn" type="button" class="ghost">Voice: off</button>
+        <button id="reconnect-btn" type="button" class="ghost">Reconnect</button>
+      </footer>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

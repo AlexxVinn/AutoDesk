@@ -1,0 +1,63 @@
+{
+  "coding_mode": {
+    "id": "coding_mode",
+    "label": "Coding Mode",
+    "description": "Cursor + Chrome split, project folder, ChatGPT tab",
+    "steps": [
+      { "action": "launch_app", "params": { "app_id": "cursor" } },
+      { "action": "launch_app", "params": { "app_id": "chrome", "profile": "default" } },
+      { "action": "open_url", "params": { "app_id": "chatgpt" } },
+      { "action": "open_folder", "params": { "project_id": "default_project" } },
+      { "action": "snap_layout", "params": { "layout": "split_lr", "left": "cursor", "right": "chrome" } },
+      { "action": "focus_app", "params": { "app_id": "cursor" } }
+    ]
+  },
+  "focus_mode": {
+    "id": "focus_mode",
+    "label": "Focus Mode",
+    "description": "Close distractions, music, clean coding layout",
+    "steps": [
+      { "action": "close_apps", "params": { "app_ids": ["chrome"] } },
+      { "action": "launch_app", "params": { "app_id": "spotify" } },
+      { "action": "run_preset", "params": { "preset_id": "coding_mode" } }
+    ]
+  },
+  "open_coding_workspace": {
+    "id": "open_coding_workspace",
+    "label": "Open Coding Workspace",
+    "alias": ["open coding workspace", "coding workspace"],
+    "steps": [
+      { "action": "run_preset", "params": { "preset_id": "coding_mode" } }
+    ]
+  },
+  "split_screen": {
+    "id": "split_screen",
+    "label": "Split Screen",
+    "alias": ["split screen", "side by side"],
+    "steps": [
+      { "action": "snap_layout", "params": { "layout": "split_lr", "left": "cursor", "right": "chrome" } }
+    ]
+  },
+  "alexandr_browser_stack": {
+    "id": "alexandr_browser_stack",
+    "label": "Alexandr Chrome Stack",
+    "description": "Chrome profile + YouTube + ChatGPT, then Cursor fullscreen",
+    "alias": [
+      "open alexandr stack",
+      "open my alexandr setup"
+    ],
+    "steps": [
+      {
+        "action": "open_url_in_chrome",
+        "params": { "profile": "alexandr_vinnitchii", "url": "https://www.youtube.com" }
+      },
+      { "action": "wait", "params": { "seconds": 1.0 } },
+      {
+        "action": "open_url_in_chrome",
+        "params": { "profile": "alexandr_vinnitchii", "app_id": "chatgpt" }
+      },
+      { "action": "wait", "params": { "seconds": 0.8 } },
+      { "action": "open_app", "params": { "app_id": "cursor", "fullscreen": true } }
+    ]
+  }
+}
